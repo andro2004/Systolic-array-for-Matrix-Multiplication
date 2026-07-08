@@ -1,10 +1,11 @@
 module PE #(parameter DATAWIDTH=16,N_SIZE=3)(clk,rst_n,in_h,in_v,pass_outh,pass_outv,out);
 
+localparam out_count_size  = $clog2(N_SIZE);
 input [DATAWIDTH-1:0] in_h,in_v;
 input clk,rst_n;
 output [DATAWIDTH-1:0] pass_outh,pass_outv;
-output [(2*DATAWIDTH-1):0] out;
-
+output reg [(2*DATAWIDTH-1):0] out;
+//wire [(2*DATAWIDTH-1):0] Add_out;
 wire [(2*DATAWIDTH)-1:0] multiplier_out ;
 wire [(2*DATAWIDTH)-1:0] adder_input [N_SIZE];
 
@@ -17,6 +18,7 @@ temp_register #(DATAWIDTH) voutput_register(vreg_in,pass_outv,clk,rst_n);
 
 multiplier#(DATAWIDTH) MUL (in_h,in_v,multiplier_out);
 adder #(DATAWIDTH,N_SIZE)ADD (adder_input,out);
+reg [out_count_size:0] out_count;
 generate 
 genvar i;
 
@@ -27,10 +29,19 @@ genvar i;
 	end
 
 endgenerate
-
-
-
-
+/*
+always @(posedge clk,negedge rst_n)begin
+    
+    if (!rst_n)begin
+        out_count <= 0;
+        out <= 0;
+    end
+    else begin
+        out_count <= (out_count == N_SIZE+1)? out_count:out_count +1;
+        out <= (out_count == N_SIZE+1)? out:Add_out;
+    end
+end
+*/
 endmodule
 
 

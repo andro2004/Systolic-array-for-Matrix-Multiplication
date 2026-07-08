@@ -5,7 +5,7 @@ input [DATAWIDTH-1:0] data_in;
 
 output [DATAWIDTH-1:0] data_out;
 
-wire [DATAWIDTH-1:0] regs_out[REG_COUNT];
+wire [DATAWIDTH-1:0] regs_out[REG_COUNT+1];
 assign data_out = regs_out[REG_COUNT-1];
 
 generate 
