@@ -43,13 +43,11 @@ begin:Row
 		end
 		assign Mux_in[i][j] = PE_reg_OUT[element_number];
 	end
-	
-	for(m=0;m<N_SIZE;m=m+1)begin:MUX_OUT
+end
+for(m=0;m<N_SIZE;m=m+1)begin:MUX_OUT
 	   mux #(.DATAWIDTH(DATAWIDTH),.N_SIZE(N_SIZE)) mux_out
         (.in(Mux_in[m]),.out(matrix_c_out[m]),.sel(counter_out-(N_SIZE-1)));
 	end
-	
-end
 endgenerate
 endmodule
 
